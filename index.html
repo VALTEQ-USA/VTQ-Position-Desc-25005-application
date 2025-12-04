@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application - EBC Support Specialist II | VALTEQ, Inc.</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF.js for Page Counting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
-        // Initialize PDF.js worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -65,41 +59,8 @@
                 </p>
             </div>
 
-            <!-- IMPORTANT: enctype="multipart/form-data" is REQUIRED for file uploads -->
-            <form id="applicationForm" action="https://formspree.io/f/xpwvlzzw" method="POST" enctype="multipart/form-data">
-
-                <!-- RESUME UPLOAD SECTION -->
-                <section class="mb-10 bg-slate-50 p-6 rounded-lg border border-slate-200">
-                    <h3 class="text-lg font-semibold text-blue-900 mb-4 flex items-center">
-                        <i class="fas fa-file-upload mr-2"></i> Resume Upload
-                    </h3>
-                    
-                    <!-- Page Count Warning -->
-                    <div class="bg-blue-100 border-l-4 border-blue-600 p-4 mb-4 rounded-r text-sm text-blue-800">
-                        <strong>Strict Requirements:</strong> 
-                        <ul class="list-disc ml-5 mt-1">
-                            <li>Format: <strong>PDF Only</strong> (Word docs not accepted).</li>
-                            <li>Length: <strong>2 Pages Maximum</strong>.</li>
-                        </ul>
-                        Files exceeding these limits will be automatically rejected.
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium mb-1 required-asterisk">Please upload your resume (PDF only)</label>
-                        <input type="file" id="resumeUpload" name="resume" required 
-                            accept=".pdf,application/pdf"
-                            onchange="validateFile(this)"
-                            class="block w-full text-sm text-slate-500
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-full file:border-0
-                            file:text-sm file:font-semibold
-                            file:bg-blue-50 file:text-blue-700
-                            hover:file:bg-blue-100
-                            cursor-pointer border border-slate-300 rounded-lg p-2
-                        "/>
-                        <p id="fileStatus" class="text-xs text-slate-500">Max file size: 10MB. PDF page count will be validated.</p>
-                    </div>
-                </section>
+            <!-- Form submission to Formspree -->
+            <form id="applicationForm" action="https://formspree.io/f/xpwvlzzw" method="POST">
 
                 <!-- SECTION 1 -->
                 <section class="mb-10">
@@ -780,50 +741,6 @@
     <!-- Formspree handles the success page automatically -->
 
     <script>
-        // --- PAGE COUNT LOGIC FOR PDF ---
-        async function validateFile(input) {
-            const file = input.files[0];
-            const statusMsg = document.getElementById('fileStatus');
-            
-            // Reset status
-            statusMsg.textContent = "Checking file...";
-            statusMsg.className = "text-xs text-blue-600";
-            input.setCustomValidity(""); // Clear previous errors
-
-            if (!file) return;
-
-            // Check if it is a PDF
-            if (file.type !== 'application/pdf') {
-                input.value = ""; // Clear
-                statusMsg.textContent = "Error: Only PDF files are accepted.";
-                statusMsg.className = "text-xs font-bold text-red-600";
-                alert("Invalid File Type: Please upload a PDF file.");
-                return;
-            }
-
-            try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                const pageCount = pdf.numPages;
-
-                if (pageCount > 2) {
-                    // REJECT
-                    input.value = ""; // Clear the file
-                    statusMsg.textContent = `Error: Your PDF has ${pageCount} pages. The limit is 2 pages.`;
-                    statusMsg.className = "text-xs font-bold text-red-600";
-                    alert(`Resume Rejected: Your PDF has ${pageCount} pages. Please upload a version with 2 pages or fewer.`);
-                } else {
-                    // ACCEPT
-                    statusMsg.textContent = `Success: PDF is ${pageCount} page(s).`;
-                    statusMsg.className = "text-xs font-bold text-green-600";
-                }
-            } catch (error) {
-                console.error(error);
-                statusMsg.textContent = "Error reading PDF. Please try a different file.";
-                statusMsg.className = "text-xs text-red-600";
-            }
-        }
-
         // --- TIMER LOGIC ---
         let timerInterval;
         function startTimer() {
