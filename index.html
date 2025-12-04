@@ -83,8 +83,8 @@
                 </p>
             </div>
 
-            <!-- Handled by JS fetch to Formspree -->
-            <form id="applicationForm" onsubmit="handleFormSubmit(event)">
+            <!-- MODIFIED: Standard HTML Form Submission to troubleshoot errors -->
+            <form id="applicationForm" action="https://formspree.io/f/xpwvlzzw" method="POST">
 
                 <!-- SECTION 1 -->
                 <section class="mb-10">
@@ -980,6 +980,7 @@
         }
 
         // Form Submission Handler
+        /*
         async function handleFormSubmit(event) {
             event.preventDefault();
             const form = event.target;
@@ -1030,6 +1031,7 @@
                 alert("There was a problem submitting your form. Please check your internet connection and try again.");
             }
         }
+        */
     </script>
 </body>
-</html>Added Formspree
+</html>
