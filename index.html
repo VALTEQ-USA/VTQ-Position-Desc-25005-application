@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application - EBC Support Specialist II | VALTEQ, Inc.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .required-asterisk::after { content: " *"; color: #ef4444; }
+        /* Smooth transition for conditional fields */
+        .conditional-field {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .conditional-field.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.3s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .gemini-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            transition: all 0.3s ease;
+        }
+        .gemini-btn:hover {
+            filter: brightness(110%);
+            transform: translateY(-1px);
+        }
+        /* Timer Animation */
+        .timer-active {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-blue-900 text-white shadow-lg">
+        <div class="max-w-4xl mx-auto px-6 py-8">
+            <h1 class="text-3xl font-bold mb-2">VALTEQ, Inc.</h1>
+            <h2 class="text-xl text-blue-100">Application – Electronic Business Center (EBC) Support Specialist II</h2>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-10">
+            
+            <!-- GEMINI AUTOFILL SECTION -->
+            <div class="mb-8 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-indigo-900">AI Resume Autofill</h3>
+                </div>
+                <p class="text-sm text-indigo-700 mb-3">Paste your resume text below and let Gemini ✨ automatically fill out the contact, education, and experience sections for you.</p>
+                <textarea id="resumeText" rows="4" class="w-full px-4 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm mb-3" placeholder="Paste your full resume content here..."></textarea>
+                <button type="button" onclick="autofillFromResume()" id="autofillBtn" class="gemini-btn text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 text-sm w-full md:w-auto justify-center">
+                    <i class="fas fa-sparkles"></i> <span>Autofill Application with Gemini</span>
+                </button>
+                <div id="autofillStatus" class="mt-2 text-xs font-semibold hidden"></div>
+            </div>
+
+            <div class="mb-8 border-b border-slate-200 pb-6">
+                <p class="text-slate-600 leading-relaxed">
+                    VALTEQ, Inc. is hiring a remote Electronic Business Center (EBC) Support Specialist II to support the United States Patent and Trademark Office (USPTO).
+                    <br><br>
+                    Please answer all questions honestly. Some questions are used to determine basic eligibility and fit for this role.
+                </p>
+            </div>
+
+            <form id="applicationForm" onsubmit="handleFormSubmit(event)">
+
+                <!-- SECTION 1 -->
+                <section class="mb-10">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 1 – CONTACT INFORMATION</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Q1 Split Name -->
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium mb-1 required-asterisk">1. Name</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <input type="text" id="firstName" name="q1_first_name" placeholder="First Name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                </div>
+                                <div>
+                                    <input type="text" id="middleName" name="q1_middle_name" placeholder="Middle Name (Optional)" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                </div>
+                                <div>
+                                    <input type="text" id="lastName" name="q1_last_name" placeholder="Last Name" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="col-span-1">
+                            <label class="block text-sm font-medium mb-1 required-asterisk" for="email">2. Email Address</label>
+                            <input type="email" id="email" name="q2_email" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="col-span-1">
+                            <label class="block text-sm font-medium mb-1 required-asterisk" for="phone">3. Mobile Phone Number</label>
+                            <input type="tel" id="phone" name="q3_phone" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="col-span-1">
+                            <label class="block text-sm font-medium mb-1 required-asterisk" for="location">4. City and State (Current Residence)</label>
+                            <input type="text" id="location" name="q4_location" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+                        </div>
+                    </div>
+
+                    <!-- Q5 -->
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">5. Are you at least 18 years old?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q5_age" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q5_age" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 2 – ELIGIBILITY AND CLEARANCE</h3>
+
+                    <!-- Q6 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">6. Are you currently authorized to work for any employer in the United States, without sponsorship now or in the future?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q6_auth" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q6_auth" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q7 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">7. This position supports a federal agency and may require a Public Trust background investigation. Are you willing to undergo and able to pass this type of background investigation?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q7_bg_check" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q7_bg_check" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q8 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">8. Due to USPTO contract requirements, hire for this position is limited to applicants who meet the contract’s citizenship or nationality rules (e.g., US citizen or US national). Do you meet these requirements?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q8_citizenship" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q8_citizenship" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q9 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">9. Have you ever worked on a federal government contract before?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q9_fed_exp" value="Yes" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q9_fed_exp" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 3 – SCHEDULE AND WORK ENVIRONMENT</h3>
+
+                    <!-- Q10 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">10. Are you able and willing to work a fixed shift assigned between 6:00 a.m. and 11:59 p.m. ET, Monday through Friday, with occasional weekend/holiday coverage?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q10_schedule" value="Yes, without restrictions" onchange="toggleConditional('q10_conditional', false)" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes, without restrictions</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q10_schedule" value="Yes, with some restrictions" onchange="toggleConditional('q10_conditional', true)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes, with some restrictions</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q10_schedule" value="No" onchange="toggleConditional('q10_conditional', false)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                        <!-- Conditional Q10 -->
+                        <div id="q10_conditional" class="conditional-field mt-3 ml-6">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Please explain your restrictions:</label>
+                            <input type="text" name="q10_explanation" class="w-full px-3 py-2 border border-slate-300 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Q11 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">11. Are you able to work full-time (40 hours per week) on a consistent schedule, with reliable daily attendance?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q11_fulltime" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q11_fulltime" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q12 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">12. Do you have a quiet, private space in your home that you can use as a dedicated workspace?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q12_workspace" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q12_workspace" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q13 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">13. What type of internet connection do you primarily have in your home office?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q13_internet" value="Wired broadband" onchange="toggleConditional('q13_conditional', false)" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Wired broadband (Ethernet to router or modem)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q13_internet" value="Wi-Fi only" onchange="toggleConditional('q13_conditional', false)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Wi-Fi only</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q13_internet" value="Mobile hotspot" onchange="toggleConditional('q13_conditional', false)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Mobile hotspot</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q13_internet" value="Other" onchange="toggleConditional('q13_conditional', true)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Other (explain below)</span>
+                            </label>
+                        </div>
+                        <div id="q13_conditional" class="conditional-field mt-3 ml-6">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Please explain:</label>
+                            <input type="text" name="q13_explanation" class="w-full px-3 py-2 border border-slate-300 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Q14 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">14. What is your typical download speed at home (estimate is fine)?</label>
+                        <select name="q14_speed" class="w-full md:w-1/2 px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select speed...</option>
+                            <option value="Less than 25 Mbps">Less than 25 Mbps</option>
+                            <option value="25–99 Mbps">25–99 Mbps</option>
+                            <option value="100–299 Mbps">100–299 Mbps</option>
+                            <option value="300 Mbps or higher">300 Mbps or higher</option>
+                        </select>
+                    </div>
+
+                    <!-- Q15 -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">15. Are you comfortable using only employer-issued equipment/accounts for all work and following security rules?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q15_equipment" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q15_equipment" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Q16 (New PC Question) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">16. Do you have access to a personal computer (desktop or laptop) that you can use for the first 1-2 weeks of employment for web conference-based training while waiting for your work equipment? (Note: Mobile phones/tablets are not permitted for training).</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q16_personal_pc" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q16_personal_pc" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 4 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 4 – EXPERIENCE AND SKILLS</h3>
+
+                    <!-- Q17 (Old Q16) -->
+                    <div class="mb-8">
+                        <p class="block text-sm font-medium mb-4 required-asterisk">17. How many years of experience do you have in the following areas?</p>
+                        
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-6">
+                            <!-- Part A -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Technical help desk or IT support (phone or chat)</label>
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_a_exp" value="None" required class="mr-2"> None</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_a_exp" value="<1yr" class="mr-2"> Less than 1 year</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_a_exp" value="1-2yrs" class="mr-2"> 1–2 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_a_exp" value="3-5yrs" class="mr-2"> 3–5 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_a_exp" value=">5yrs" class="mr-2"> More than 5 years</label>
+                                </div>
+                            </div>
+                            <hr class="border-slate-200">
+                            <!-- Part B -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Call center or contact center work</label>
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_b_exp" value="None" required class="mr-2"> None</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_b_exp" value="<1yr" class="mr-2"> Less than 1 year</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_b_exp" value="1-2yrs" class="mr-2"> 1–2 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_b_exp" value="3-5yrs" class="mr-2"> 3–5 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_b_exp" value=">5yrs" class="mr-2"> More than 5 years</label>
+                                </div>
+                            </div>
+                            <hr class="border-slate-200">
+                            <!-- Part C -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Customer service in a structured, metrics-driven environment</label>
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_c_exp" value="None" required class="mr-2"> None</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_c_exp" value="<1yr" class="mr-2"> Less than 1 year</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_c_exp" value="1-2yrs" class="mr-2"> 1–2 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_c_exp" value="3-5yrs" class="mr-2"> 3–5 years</label>
+                                    <label class="text-xs flex items-center"><input type="radio" name="q17_c_exp" value=">5yrs" class="mr-2"> More than 5 years</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Q18 (New English Question) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">18. Was English the primary language spoken in the experience roles listed above?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q18_english_spoken" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q18_english_spoken" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q19 (Old Q17) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">19. Have you worked in a role where you handled a steady queue of incoming calls for most of your workday?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q19_queue" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q19_queue" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q20 (Old Q18) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">20. Have you worked from scripts, decision trees, or standard operating procedures to resolve customer issues?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q20_scripts" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q20_scripts" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q21 (Old Q19) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">21. Which of the following systems or concepts have you used in a previous job? (Select all that apply)</label>
+                        <div class="space-y-2 pl-2">
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" name="q21_systems" value="Ticketing Systems" class="text-blue-600 focus:ring-blue-500 h-4 w-4 mt-1">
+                                <span class="text-sm">Ticketing or case management systems (e.g., ServiceNow, Remedy, Zendesk, Salesforce)</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" name="q21_systems" value="MFA/2FA" class="text-blue-600 focus:ring-blue-500 h-4 w-4 mt-1">
+                                <span class="text-sm">Multi-factor authentication (MFA) or two-factor authentication (2FA) support</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" name="q21_systems" value="Account/Password Workflows" class="text-blue-600 focus:ring-blue-500 h-4 w-4 mt-1">
+                                <span class="text-sm">Account creation and password reset workflows</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" name="q21_systems" value="Sensitive Info" class="text-blue-600 focus:ring-blue-500 h-4 w-4 mt-1">
+                                <span class="text-sm">Working with secure or sensitive customer information</span>
+                            </label>
+                            <label class="flex items-start space-x-2 cursor-pointer">
+                                <input type="checkbox" name="q21_systems" value="None" class="text-blue-600 focus:ring-blue-500 h-4 w-4 mt-1">
+                                <span class="text-sm">None of the above</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q22 (Old Q20) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">22. How comfortable are you writing clear, concise case notes while handling multiple cases per day?</label>
+                        <select name="q22_notes" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select option...</option>
+                            <option value="Very comfortable">Very comfortable</option>
+                            <option value="Comfortable">Comfortable</option>
+                            <option value="Somewhat comfortable">Somewhat comfortable</option>
+                            <option value="Not comfortable">Not comfortable</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- SECTION 5 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 5 – WORK HABITS AND PERFORMANCE</h3>
+                    
+                    <!-- Q23 (Old Q21) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">23. This job is structured, repetitive, and metrics-driven. How do you feel about that environment?</label>
+                        <select name="q23_environment" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select option...</option>
+                            <option value="I prefer it">I prefer it</option>
+                            <option value="I am fine with it">I am fine with it</option>
+                            <option value="I can tolerate it but prefer more variety">I can tolerate it but prefer more variety</option>
+                            <option value="I do not like that type of environment">I do not like that type of environment</option>
+                        </select>
+                    </div>
+
+                    <!-- Q24 (Old Q22) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">24. In your last two roles, how would your manager describe your attendance and punctuality?</label>
+                        <select name="q24_attendance" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select option...</option>
+                            <option value="Excellent">Excellent – rarely late, no unapproved absences</option>
+                            <option value="Good">Good – occasionally late or absent with notice</option>
+                            <option value="Fair">Fair – some issues with lateness or unscheduled absences</option>
+                            <option value="Poor">Poor – frequent issues</option>
+                        </select>
+                    </div>
+
+                    <!-- Q25 (Old Q23) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">25. Have you ever been formally written up or placed on a performance or attendance improvement plan?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q25_plans" value="Yes" onchange="toggleConditional('q25_conditional', true)" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q25_plans" value="No" onchange="toggleConditional('q25_conditional', false)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                        <div id="q25_conditional" class="conditional-field mt-3 ml-6">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Please briefly explain what happened and the outcome:</label>
+                            <textarea name="q25_explanation" rows="3" class="w-full px-3 py-2 border border-slate-300 rounded text-sm"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Q26 (Old Q24) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">26. When you receive detailed written instructions or procedures, which best describes you?</label>
+                        <select name="q26_instructions" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select option...</option>
+                            <option value="Follow step by step">I follow them step by step and rarely deviate</option>
+                            <option value="Follow most of time">I follow them most of the time but may adjust as I go</option>
+                            <option value="Figure out own way">I prefer to figure things out my own way</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- SECTION 6 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 6 – WRITING AND COMMUNICATION SAMPLE</h3>
+
+                    <!-- Q27 (Old Q25) -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium required-asterisk">27. Writing Sample Prompt</label>
+                            <div id="timerDisplay" class="text-sm font-mono font-bold text-slate-500 px-3 py-1 bg-slate-100 rounded-lg border border-slate-300">
+                                <i class="far fa-clock mr-1"></i> 15:00
+                            </div>
+                        </div>
+                        
+                        <!-- AI Warning -->
+                        <div class="bg-red-50 border-l-4 border-red-600 p-4 mb-4 rounded-r-lg">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-red-600 mt-1"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-bold text-red-800 uppercase tracking-wide">Zero-Tolerance Policy on AI Usage</h3>
+                                    <div class="mt-2 text-sm text-red-700 space-y-2">
+                                        <p>
+                                            <strong>Warning:</strong> Responses will be subject to advanced AI-detection technology. Any text flagged as AI-generated will result in immediate elimination from consideration.
+                                        </p>
+                                        <p>
+                                            Please use your own critical thinking skills to compose your response. This is a zero-tolerance policy and no excuses will be permitted.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded text-sm text-blue-800 mb-4 italic">
+                            “Please write a short email (6–10 sentences) to a United States Patent and Trademark Office (USPTO) customer who is having trouble logging in because their multi-factor authentication code is not working. Explain what you need from them, give clear steps to try, and close the email in a professional way.”
+                        </div>
+                        <textarea id="writingSample" name="q27_writing_sample" onfocus="startTimer()" required rows="10" placeholder="Type your response here... (Timer will start automatically)" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition mb-2"></textarea>
+                    </div>
+
+                    <!-- Q28 (Old Q26) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">28. Rate your English writing skills for professional emails.</label>
+                        <select name="q28_writing_skills" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Needs improvement">Needs improvement</option>
+                        </select>
+                    </div>
+
+                    <!-- Q29 (Old Q27) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">29. Rate your comfort level speaking on the phone with customers who may be stressed, confused, or upset.</label>
+                        <select name="q29_phone_comfort" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="Very comfortable">Very comfortable</option>
+                            <option value="Comfortable">Comfortable</option>
+                            <option value="Somewhat comfortable">Somewhat comfortable</option>
+                            <option value="Not comfortable">Not comfortable</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- SECTION 7 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 7 – EDUCATION AND DOCUMENTATION</h3>
+
+                    <!-- Q30 (Old Q28) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">30. Highest level of education completed</label>
+                        <select name="q30_education" id="education_select" onchange="toggleEducation()" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="High school/GED">High school diploma or GED</option>
+                            <option value="Some college">Some college</option>
+                            <option value="Associate degree">Associate degree</option>
+                            <option value="Bachelor's degree">Bachelor’s degree</option>
+                            <option value="Graduate degree">Graduate degree</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="q30_conditional" class="conditional-field mt-3">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Please explain:</label>
+                            <input type="text" name="q30_explanation" class="w-full px-3 py-2 border border-slate-300 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Q31 (Old Q29) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">31. List any degrees, certificates, or training programs relevant to customer service, IT support, or call center work.</label>
+                        <textarea id="educationDetails" name="q31_certs" rows="3" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"></textarea>
+                    </div>
+
+                    <!-- Q32 (Old Q30) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">32. You may be asked to provide proof of education and certifications. Are you able to provide documentation if requested?</label>
+                        <div class="flex gap-6">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q32_docs" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q32_docs" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 8 (Professional References) -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 8 – PROFESSIONAL REFERENCES</h3>
+                    
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 mb-6">
+                         <p class="text-sm text-indigo-800">
+                             <i class="fas fa-info-circle mr-1"></i> Please list a minimum of two professional references (e.g., supervisors, managers, colleagues). 
+                             <strong>Personal friends or family members are not accepted.</strong>
+                         </p>
+                    </div>
+
+                    <!-- Reference 1 -->
+                    <h4 class="font-bold text-slate-700 mb-4 border-b pb-2">33. Reference #1</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Full Name</label>
+                            <input type="text" name="q33_ref1_name" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Job Title</label>
+                            <input type="text" name="q33_ref1_title" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Relationship</label>
+                            <input type="text" name="q33_ref1_relationship" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div class="grid grid-cols-2 gap-2">
+                             <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Email</label>
+                                <input type="email" name="q33_ref1_email" placeholder="Required" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                             </div>
+                             <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Phone (Optional)</label>
+                                <input type="tel" name="q33_ref1_phone" class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                             </div>
+                         </div>
+                    </div>
+
+                    <!-- Reference 2 -->
+                    <h4 class="font-bold text-slate-700 mb-4 border-b pb-2">34. Reference #2</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Full Name</label>
+                            <input type="text" name="q34_ref2_name" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Job Title</label>
+                            <input type="text" name="q34_ref2_title" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Relationship</label>
+                            <input type="text" name="q34_ref2_relationship" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                         </div>
+                         <div class="grid grid-cols-2 gap-2">
+                             <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1 required-asterisk">Email</label>
+                                <input type="email" name="q34_ref2_email" placeholder="Required" required class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                             </div>
+                             <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Phone (Optional)</label>
+                                <input type="tel" name="q34_ref2_phone" class="w-full px-3 py-2 border border-slate-300 rounded focus:ring-1 focus:ring-blue-500 text-sm">
+                             </div>
+                         </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 9 -->
+                <section class="mb-10 border-t border-slate-100 pt-8">
+                    <h3 class="text-lg font-semibold text-blue-900 border-l-4 border-blue-600 pl-3 mb-6">SECTION 9 – FINAL CONFIRMATIONS</h3>
+
+                    <!-- Q35 (Old Q31) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">35. If selected, how soon could you start full-time employment?</label>
+                        <select name="q35_start" required class="w-full px-4 py-2 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="Within 1 week">Within 1 week</option>
+                            <option value="2 weeks">2 weeks</option>
+                            <option value="3-4 weeks">3–4 weeks</option>
+                            <option value="More than 4 weeks">More than 4 weeks</option>
+                        </select>
+                    </div>
+
+                    <!-- Q36 (Old Q32) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2 required-asterisk">36. Is there anything that would prevent you from maintaining regular, on-time attendance for your scheduled shift?</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q36_attendance" value="No" onchange="toggleConditional('q36_conditional', false)" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>No</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q36_attendance" value="Yes" onchange="toggleConditional('q36_conditional', true)" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span>Yes (explain below)</span>
+                            </label>
+                        </div>
+                        <div id="q36_conditional" class="conditional-field mt-3 ml-6">
+                            <label class="block text-xs font-medium text-slate-500 mb-1">Please explain:</label>
+                            <input type="text" name="q36_explanation" class="w-full px-3 py-2 border border-slate-300 rounded text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Q37 (Old Q33) -->
+                    <div class="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <label class="block text-sm font-medium mb-2 text-yellow-800 required-asterisk">
+                            37. Confirmation: "I confirm that all information provided in this application is true and complete to the best of my knowledge. I understand that any false or misleading information may result in disqualification from consideration or termination of employment."
+                        </label>
+                        <div class="flex gap-6 mt-3">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q37_confirmation" value="Yes" required class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span class="text-yellow-900 font-semibold">Yes, I confirm</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q37_confirmation" value="No" class="text-blue-600 focus:ring-blue-500 h-4 w-4">
+                                <span class="text-yellow-900">No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg transition transform hover:-translate-y-0.5 focus:ring-4 focus:ring-blue-300">
+                        Submit Application
+                    </button>
+
+                </section>
+            </form>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-8 text-center relative">
+            <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-2">Application Submitted</h3>
+            <p class="text-slate-600 mb-6">
+                Thank you! Your answers have been locked. 
+                <br><br>
+                <span class="text-sm bg-blue-50 text-blue-700 p-2 rounded block">
+                    <i class="fas fa-info-circle mr-1"></i> Since this is a secure web form, your default email client should have opened with your results ready to send to <strong>solutions@valteq-usa.com</strong>. Please hit "Send" in your email app.
+                </span>
+            </p>
+            <button onclick="window.location.reload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2 px-6 rounded-lg transition">
+                Start New Application
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const apiKey = ""; // API Key provided by environment
+
+        // Helper: Call Gemini API
+        async function callGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }]
+            };
+
+            let delay = 1000;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        if (response.status === 429) throw new Error('Too many requests');
+                        throw new Error(`API Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
+                } catch (err) {
+                    if (i === 4) throw err;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- TIMER LOGIC ---
+        let timerInterval;
+        function startTimer() {
+            if(timerInterval) return; // Already started
+            
+            const display = document.getElementById('timerDisplay');
+            const textarea = document.getElementById('writingSample');
+            
+            // Add pulse effect to show it's active
+            display.classList.add('timer-active');
+            display.classList.remove('text-slate-500', 'bg-slate-100');
+            display.classList.add('text-blue-600', 'bg-blue-50', 'border-blue-200');
+            
+            let duration = 15 * 60; // 15 minutes in seconds
+
+            timerInterval = setInterval(() => {
+                let minutes = parseInt(duration / 60, 10);
+                let seconds = parseInt(duration % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.innerHTML = `<i class="far fa-clock mr-1"></i> ${minutes}:${seconds}`;
+
+                // Warning color at 2 minutes
+                if (duration < 120) {
+                    display.classList.remove('text-blue-600', 'bg-blue-50', 'border-blue-200');
+                    display.classList.add('text-red-600', 'bg-red-50', 'border-red-200');
+                }
+
+                if (--duration < 0) {
+                    clearInterval(timerInterval);
+                    display.innerHTML = `<i class="fas fa-times-circle mr-1"></i> Time Expired`;
+                    display.classList.remove('timer-active');
+                    textarea.placeholder = "Time expired. Please finish your sentence.";
+                    // We don't disable it to avoid losing work, but the visual cue is strong.
+                }
+            }, 1000);
+        }
+
+        // --- FEATURE 1: RESUME AUTOFILL ---
+        async function autofillFromResume() {
+            const resumeText = document.getElementById('resumeText').value;
+            const btn = document.getElementById('autofillBtn');
+            const status = document.getElementById('autofillStatus');
+
+            if (!resumeText.trim()) {
+                alert("Please paste your resume text first.");
+                return;
+            }
+
+            // UI Loading State
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Analyzing Resume...</span>';
+            btn.disabled = true;
+            status.classList.remove('hidden');
+            status.textContent = "Connecting to Gemini AI...";
+            status.className = "mt-2 text-xs font-semibold text-indigo-600 block";
+
+            const prompt = `
+                You are a data extraction assistant for a job application form. 
+                Extract the following information from the provided resume text and return it as a JSON object.
+                
+                Keys to extract:
+                - fullName (string)
+                - email (string)
+                - phone (string)
+                - location (string, City and State)
+                - educationLevel (String, MUST be exactly one of: "High school/GED", "Some college", "Associate degree", "Bachelor's degree", "Graduate degree", "Other")
+                - educationDetails (string, summary of degrees/majors)
+                - experienceIT (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
+                - experienceCallCenter (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
+                - experienceCS (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
+                
+                If a field is not found, use null.
+                
+                RESUME TEXT:
+                ${resumeText}
+                
+                Return ONLY valid JSON.
+            `;
+
+            try {
+                const resultText = await callGemini(prompt);
+                // Clean up markdown code blocks if Gemini returns them
+                const cleanJson = resultText.replace(/```json/g, '').replace(/```/g, '').trim();
+                const data = JSON.parse(cleanJson);
+
+                // Populate Fields
+                if(data.fullName) {
+                    const parts = data.fullName.split(' ');
+                    if(parts.length > 0) document.getElementById('firstName').value = parts[0];
+                    if(parts.length > 1) document.getElementById('lastName').value = parts[parts.length - 1];
+                    if(parts.length > 2) {
+                        // Attempt to grab middle names
+                        document.getElementById('middleName').value = parts.slice(1, parts.length - 1).join(' ');
+                    }
+                }
+                
+                if(data.email) document.getElementById('email').value = data.email;
+                if(data.phone) document.getElementById('phone').value = data.phone;
+                if(data.location) document.getElementById('location').value = data.location;
+                if(data.educationDetails) document.getElementById('educationDetails').value = data.educationDetails;
+
+                // Handle Select Dropdown (Education)
+                if(data.educationLevel) {
+                    const eduSelect = document.getElementById('education_select');
+                    // Try to match the exact string, otherwise default to something safe or leave as is
+                    for(let i=0; i<eduSelect.options.length; i++) {
+                        if(eduSelect.options[i].value.includes(data.educationLevel) || data.educationLevel.includes(eduSelect.options[i].text)) {
+                            eduSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                // Handle Radio Buttons (Experience)
+                const setRadio = (name, value) => {
+                    if(!value) return;
+                    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                    if(radio) radio.checked = true;
+                };
+
+                setRadio('q17_a_exp', data.experienceIT); 
+                setRadio('q17_b_exp', data.experienceCallCenter); 
+                setRadio('q17_c_exp', data.experienceCS); 
+
+                status.textContent = "✨ Success! Form populated from resume.";
+                status.className = "mt-2 text-xs font-semibold text-green-600 block";
+
+            } catch (error) {
+                console.error(error);
+                status.textContent = "Error parsing resume. Please try again or fill manually.";
+                status.className = "mt-2 text-xs font-semibold text-red-600 block";
+            } finally {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }
+        }
+
+        // Conditional Logic Handler
+        function toggleConditional(elementId, show) {
+            const el = document.getElementById(elementId);
+            const input = el.querySelector('input, textarea');
+            
+            if (show) {
+                el.classList.add('active');
+                if(input) input.required = true;
+            } else {
+                el.classList.remove('active');
+                if(input) {
+                    input.required = false;
+                    input.value = ''; // Clear value if hidden
+                }
+            }
+        }
+
+        // Specific Handler for Education Select
+        function toggleEducation() {
+            const select = document.getElementById('education_select');
+            const show = select.value === 'Other';
+            toggleConditional('q30_conditional', show); 
+        }
+
+        // Form Submission Handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const btn = document.getElementById('submitBtn');
+
+            // 1. Lock down the form
+            const allInputs = form.querySelectorAll('input, select, textarea, button');
+            allInputs.forEach(el => {
+                el.disabled = true;
+                el.classList.add('opacity-70', 'cursor-not-allowed');
+            });
+            // Stop timer if running
+            if (timerInterval) clearInterval(timerInterval);
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+
+            // 2. Gather Data for Email
+            const formData = new FormData(form);
+            let emailBody = "VALTEQ APPLICATION RESULTS\n==========================\n\n";
+            
+            // Format the data nicely
+            for (let [key, value] of formData.entries()) {
+                // Clean up key names for display
+                let label = key.replace(/^q\d+_/, '').replace(/_/g, ' ').toUpperCase();
+                // Handle multi-line
+                if (key === 'q27_writing_sample') { 
+                    emailBody += `\n--- WRITING SAMPLE ---\n${value}\n----------------------\n\n`;
+                } else {
+                    emailBody += `${label}: ${value}\n`;
+                }
+            }
+
+            // 3. Construct Mailto Link
+            const firstName = document.getElementById('firstName').value || 'Applicant';
+            const lastName = document.getElementById('lastName').value || '';
+            const subject = encodeURIComponent(`Application - EBC Support Specialist II - ${firstName} ${lastName}`);
+            const body = encodeURIComponent(emailBody);
+            const mailtoLink = `mailto:solutions@valteq-usa.com?subject=${subject}&body=${body}`;
+
+            // 4. Trigger Action after small delay to simulate processing
+            setTimeout(() => {
+                // Open Email Client
+                window.location.href = mailtoLink;
+                
+                // Show Success Modal
+                document.getElementById('successModal').classList.remove('hidden');
+                btn.innerHTML = 'Submitted';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
