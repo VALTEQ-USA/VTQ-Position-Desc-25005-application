@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Application - EBC Support Specialist II | VALTEQ, Inc.</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF.js for Page Counting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Initialize PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -24,14 +30,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        .gemini-btn {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            transition: all 0.3s ease;
-        }
-        .gemini-btn:hover {
-            filter: brightness(110%);
-            transform: translateY(-1px);
         }
         /* Timer Animation */
         .timer-active {
@@ -59,22 +57,6 @@
         
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-10">
             
-            <!-- GEMINI AUTOFILL SECTION -->
-            <div class="mb-8 p-6 bg-indigo-50 border border-indigo-100 rounded-xl">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="bg-indigo-600 text-white p-2 rounded-lg">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-indigo-900">AI Resume Autofill</h3>
-                </div>
-                <p class="text-sm text-indigo-700 mb-3">Paste your resume text below and let Gemini ✨ automatically fill out the contact, education, and experience sections for you.</p>
-                <textarea id="resumeText" rows="4" class="w-full px-4 py-2 border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm mb-3" placeholder="Paste your full resume content here..."></textarea>
-                <button type="button" onclick="autofillFromResume()" id="autofillBtn" class="gemini-btn text-white font-medium py-2 px-4 rounded-lg flex items-center gap-2 text-sm w-full md:w-auto justify-center">
-                    <i class="fas fa-sparkles"></i> <span>Autofill Application with Gemini</span>
-                </button>
-                <div id="autofillStatus" class="mt-2 text-xs font-semibold hidden"></div>
-            </div>
-
             <div class="mb-8 border-b border-slate-200 pb-6">
                 <p class="text-slate-600 leading-relaxed">
                     VALTEQ, Inc. is hiring a remote Electronic Business Center (EBC) Support Specialist II to support the United States Patent and Trademark Office (USPTO).
@@ -83,8 +65,41 @@
                 </p>
             </div>
 
-            <!-- MODIFIED: Standard HTML Form Submission to troubleshoot errors -->
-            <form id="applicationForm" action="https://formspree.io/f/xpwvlzzw" method="POST">
+            <!-- IMPORTANT: enctype="multipart/form-data" is REQUIRED for file uploads -->
+            <form id="applicationForm" action="https://formspree.io/f/xpwvlzzw" method="POST" enctype="multipart/form-data">
+
+                <!-- RESUME UPLOAD SECTION -->
+                <section class="mb-10 bg-slate-50 p-6 rounded-lg border border-slate-200">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-4 flex items-center">
+                        <i class="fas fa-file-upload mr-2"></i> Resume Upload
+                    </h3>
+                    
+                    <!-- Page Count Warning -->
+                    <div class="bg-blue-100 border-l-4 border-blue-600 p-4 mb-4 rounded-r text-sm text-blue-800">
+                        <strong>Strict Requirements:</strong> 
+                        <ul class="list-disc ml-5 mt-1">
+                            <li>Format: <strong>PDF Only</strong> (Word docs not accepted).</li>
+                            <li>Length: <strong>2 Pages Maximum</strong>.</li>
+                        </ul>
+                        Files exceeding these limits will be automatically rejected.
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium mb-1 required-asterisk">Please upload your resume (PDF only)</label>
+                        <input type="file" id="resumeUpload" name="resume" required 
+                            accept=".pdf,application/pdf"
+                            onchange="validateFile(this)"
+                            class="block w-full text-sm text-slate-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-full file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100
+                            cursor-pointer border border-slate-300 rounded-lg p-2
+                        "/>
+                        <p id="fileStatus" class="text-xs text-slate-500">Max file size: 10MB. PDF page count will be validated.</p>
+                    </div>
+                </section>
 
                 <!-- SECTION 1 -->
                 <section class="mb-10">
@@ -761,68 +776,51 @@
         </div>
     </main>
 
-    <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-8 text-center relative">
-            <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fas fa-check text-2xl"></i>
-            </div>
-            <h3 class="text-2xl font-bold text-slate-800 mb-2">Application Submitted</h3>
-            <p class="text-slate-600 mb-6">
-                Thank you! Your answers have been locked. 
-                <br><br>
-                <span class="text-sm bg-blue-50 text-blue-700 p-2 rounded block">
-                    <i class="fas fa-info-circle mr-1"></i> Since this is a secure web form, your default email client should have opened with your results ready to send to <strong>solutions@valteq-usa.com</strong>. Please hit "Send" in your email app.
-                </span>
-            </p>
-            <button onclick="window.location.reload()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-2 px-6 rounded-lg transition">
-                Start New Application
-            </button>
-        </div>
-    </div>
+    <!-- Success Modal NOT NEEDED for Standard Formspree Redirect -->
+    <!-- Formspree handles the success page automatically -->
 
     <script>
-        const apiKey = "AIzaSyAXIyi4YCrG4yGUlOPgpV8yWKfyhpuiyqQ"; // API Key provided by environment
+        // --- PAGE COUNT LOGIC FOR PDF ---
+        async function validateFile(input) {
+            const file = input.files[0];
+            const statusMsg = document.getElementById('fileStatus');
+            
+            // Reset status
+            statusMsg.textContent = "Checking file...";
+            statusMsg.className = "text-xs text-blue-600";
+            input.setCustomValidity(""); // Clear previous errors
 
-        // Helper: Call Gemini API
-        async function callGemini(prompt) {
-            // Check if API key is missing
-            if (!apiKey) {
-                const status = document.getElementById('autofillStatus');
-                if (status) {
-                    status.textContent = "Error: API Key is missing. Please edit the HTML file and add your Google Gemini API key in the script section.";
-                    status.className = "mt-2 text-xs font-semibold text-red-600 block";
-                }
-                alert("API Key is missing. Please edit the HTML file and add your Google Gemini API key in the script section.");
-                throw new Error("API Key missing");
+            if (!file) return;
+
+            // Check if it is a PDF
+            if (file.type !== 'application/pdf') {
+                input.value = ""; // Clear
+                statusMsg.textContent = "Error: Only PDF files are accepted.";
+                statusMsg.className = "text-xs font-bold text-red-600";
+                alert("Invalid File Type: Please upload a PDF file.");
+                return;
             }
 
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }]
-            };
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                const pageCount = pdf.numPages;
 
-            let delay = 1000;
-            for (let i = 0; i < 5; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    if (!response.ok) {
-                        if (response.status === 429) throw new Error('Too many requests');
-                        throw new Error(`API Error: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    return data.candidates[0].content.parts[0].text;
-                } catch (err) {
-                    if (i === 4) throw err;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
+                if (pageCount > 2) {
+                    // REJECT
+                    input.value = ""; // Clear the file
+                    statusMsg.textContent = `Error: Your PDF has ${pageCount} pages. The limit is 2 pages.`;
+                    statusMsg.className = "text-xs font-bold text-red-600";
+                    alert(`Resume Rejected: Your PDF has ${pageCount} pages. Please upload a version with 2 pages or fewer.`);
+                } else {
+                    // ACCEPT
+                    statusMsg.textContent = `Success: PDF is ${pageCount} page(s).`;
+                    statusMsg.className = "text-xs font-bold text-green-600";
                 }
+            } catch (error) {
+                console.error(error);
+                statusMsg.textContent = "Error reading PDF. Please try a different file.";
+                statusMsg.className = "text-xs text-red-600";
             }
         }
 
@@ -866,115 +864,6 @@
             }, 1000);
         }
 
-        // --- FEATURE 1: RESUME AUTOFILL ---
-        async function autofillFromResume() {
-            const resumeText = document.getElementById('resumeText').value;
-            const btn = document.getElementById('autofillBtn');
-            const status = document.getElementById('autofillStatus');
-
-            if (!resumeText.trim()) {
-                alert("Please paste your resume text first.");
-                return;
-            }
-
-            // UI Loading State
-            const originalBtnText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Analyzing Resume...</span>';
-            btn.disabled = true;
-            status.classList.remove('hidden');
-            status.textContent = "Connecting to Gemini AI...";
-            status.className = "mt-2 text-xs font-semibold text-indigo-600 block";
-
-            const prompt = `
-                You are a data extraction assistant for a job application form. 
-                Extract the following information from the provided resume text and return it as a JSON object.
-                
-                Keys to extract:
-                - fullName (string)
-                - email (string)
-                - phone (string)
-                - location (string, City and State)
-                - educationLevel (String, MUST be exactly one of: "High school/GED", "Some college", "Associate degree", "Bachelor's degree", "Graduate degree", "Other")
-                - educationDetails (string, summary of degrees/majors)
-                - experienceIT (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
-                - experienceCallCenter (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
-                - experienceCS (String, estimate years based on text, MUST be exactly one of: "None", "<1yr", "1-2yrs", "3-5yrs", ">5yrs")
-                
-                If a field is not found, use null.
-                
-                RESUME TEXT:
-                ${resumeText}
-                
-                Return ONLY valid JSON.
-            `;
-
-            try {
-                const resultText = await callGemini(prompt);
-                // Robust JSON parsing: find first '{' and last '}'
-                const jsonMatch = resultText.match(/\{[\s\S]*\}/);
-                if (!jsonMatch) {
-                    throw new Error("Invalid JSON response from AI");
-                }
-                const cleanJson = jsonMatch[0];
-                const data = JSON.parse(cleanJson);
-
-                // Populate Fields
-                if(data.fullName) {
-                    const parts = data.fullName.split(' ');
-                    if(parts.length > 0) document.getElementById('firstName').value = parts[0];
-                    if(parts.length > 1) document.getElementById('lastName').value = parts[parts.length - 1];
-                    if(parts.length > 2) {
-                        // Attempt to grab middle names
-                        document.getElementById('middleName').value = parts.slice(1, parts.length - 1).join(' ');
-                    }
-                }
-                
-                if(data.email) document.getElementById('email').value = data.email;
-                if(data.phone) document.getElementById('phone').value = data.phone;
-                if(data.location) document.getElementById('location').value = data.location;
-                if(data.educationDetails) document.getElementById('educationDetails').value = data.educationDetails;
-
-                // Handle Select Dropdown (Education)
-                if(data.educationLevel) {
-                    const eduSelect = document.getElementById('education_select');
-                    // Try to match the exact string, otherwise default to something safe or leave as is
-                    for(let i=0; i<eduSelect.options.length; i++) {
-                        if(eduSelect.options[i].value.includes(data.educationLevel) || data.educationLevel.includes(eduSelect.options[i].text)) {
-                            eduSelect.selectedIndex = i;
-                            break;
-                        }
-                    }
-                }
-
-                // Handle Radio Buttons (Experience)
-                const setRadio = (name, value) => {
-                    if(!value) return;
-                    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
-                    if(radio) radio.checked = true;
-                };
-
-                setRadio('q17_a_exp', data.experienceIT); 
-                setRadio('q17_b_exp', data.experienceCallCenter); 
-                setRadio('q17_c_exp', data.experienceCS); 
-
-                status.textContent = "✨ Success! Form populated from resume.";
-                status.className = "mt-2 text-xs font-semibold text-green-600 block";
-
-            } catch (error) {
-                console.error(error);
-                let msg = "Error parsing resume.";
-                if (error.message.includes("API Key")) msg = "Error: Missing API Key.";
-                else if (error.message.includes("403")) msg = "Error: API Key invalid or restricted.";
-                else if (error.message.includes("JSON")) msg = "Error: AI response unreadable.";
-                
-                status.textContent = msg + " Please try again or fill manually.";
-                status.className = "mt-2 text-xs font-semibold text-red-600 block";
-            } finally {
-                btn.innerHTML = originalBtnText;
-                btn.disabled = false;
-            }
-        }
-
         // Conditional Logic Handler
         function toggleConditional(elementId, show) {
             const el = document.getElementById(elementId);
@@ -998,60 +887,6 @@
             const show = select.value === 'Other';
             toggleConditional('q30_conditional', show); 
         }
-
-        // Form Submission Handler
-        /*
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const btn = document.getElementById('submitBtn');
-
-            // 1. Lock down the form
-            const allInputs = form.querySelectorAll('input, select, textarea, button');
-            allInputs.forEach(el => {
-                el.disabled = true;
-                el.classList.add('opacity-70', 'cursor-not-allowed');
-            });
-            // Stop timer if running
-            if (timerInterval) clearInterval(timerInterval);
-
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
-
-            // 2. Send to Formspree
-            try {
-                const response = await fetch("https://formspree.io/f/xpwvlzzw", {
-                    method: "POST",
-                    body: new FormData(form),
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                     // 3. Show Success Modal
-                    document.getElementById('successModal').classList.remove('hidden');
-                    // Update modal text since it's no longer opening an email client
-                    const modalBody = document.querySelector('#successModal p');
-                    if(modalBody) {
-                        modalBody.innerHTML = `
-                            Thank you! Your application has been securely received by our team.
-                            <br><br>
-                            <span class="text-sm bg-blue-50 text-blue-700 p-2 rounded block">
-                                <i class="fas fa-info-circle mr-1"></i> You may close this window.
-                            </span>
-                        `;
-                    }
-                    btn.innerHTML = 'Submitted';
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            } catch (error) {
-                console.error(error);
-                btn.innerHTML = 'Error';
-                alert("There was a problem submitting your form. Please check your internet connection and try again.");
-            }
-        }
-        */
     </script>
 </body>
 </html>
